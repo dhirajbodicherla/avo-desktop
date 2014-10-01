@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script type="text/javascript">
+        var gui = require('nw.gui');
+        window.location.href = "http://avocado.io";
+        win = gui.Window.get();
+
+        function tray() {
+            var tray = new gui.Tray({
+                icon: 'icon.png'
+            });
+            
+            var menu = new gui.Menu();
+            menu.append(new gui.MenuItem({
+                label: 'Show',
+                click: function () {
+                    win.show();
+                    tray.remove();
+                    tray = null;
+                }
+            }));
+            menu.append(new gui.MenuItem({
+                label: 'Quit',
+                click: function () {
+                    tray.remove();
+                    tray = null;
+                    win.close();
+                }
+            }));
+            tray.menu = menu;
+        }
+        win.on('minimize', function () {
+            this.hide();
+            tray();
+        });
+    </script>
+</body>
+</html>
